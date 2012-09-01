@@ -22,3 +22,5 @@ gen/
 .classpath
 .project
 
+/target
+/.settings
