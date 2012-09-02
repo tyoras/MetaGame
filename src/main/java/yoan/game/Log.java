@@ -23,7 +23,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Category#debug(java.lang.Object)
 	 */
-	public void debug(String message){
+	public static void debug(String message){
 		logger.debug(message);
 	}
 
@@ -31,7 +31,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Category#error(java.lang.Object)
 	 */
-	public void error(String message){
+	public static void error(String message){
 		logger.error(message);
 	}
 
@@ -39,7 +39,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Category#fatal(java.lang.Object)
 	 */
-	public void fatal(String message){
+	public static void fatal(String message){
 		logger.fatal(message);
 	}
 
@@ -47,7 +47,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Category#info(java.lang.Object)
 	 */
-	public void info(String message){
+	public static void info(String message){
 		logger.info(message);
 	}
 
@@ -55,7 +55,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Logger#trace(java.lang.Object)
 	 */
-	public void trace(String message){
+	public static void trace(String message){
 		logger.trace(message);
 	}
 
@@ -63,7 +63,7 @@ public final class Log {
 	 * @param message
 	 * @see org.apache.log4j.Category#warn(java.lang.Object)
 	 */
-	public void warn(String message){
+	public static void warn(String message){
 		logger.warn(message);
 	}
 
