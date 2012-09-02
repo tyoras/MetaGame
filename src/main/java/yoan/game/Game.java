@@ -9,23 +9,24 @@ import java.util.Map;
 
 import yoan.game.engines.Engine;
 import yoan.game.engines.Module;
+import yoan.game.engines.events.EngineEvent;
 
 /**
  * Classe de base du jeu
  * @author yoan
  */
-public abstract class Game {
+public abstract class Game<E extends EngineEvent> {
 	
 	/** Indique si le jeu est démarré */
 	private boolean running= false;
 	/** Map des modules du jeu */
-	protected Map<Module, Engine> modules;
+	protected Map<Module, Engine<E>> modules;
 	
 	/**
 	 * Constructeur par défaut du jeu
 	 */
 	public Game(){
-		this.modules= new HashMap<Module, Engine>();
+		this.modules= new HashMap<Module, Engine<E>>();
 	}
 
 	/**
@@ -38,11 +39,11 @@ public abstract class Game {
 	 */
 	public void run(){
 		boolean gameRunning= isRunning();
+		Collection<Engine<E>> listModule= modules.values();
 		//tant que le jeu est dans l'état "Démarré"
 		while(gameRunning){
-			Collection<Engine> listModule= modules.values();
 			//on exécute les frames de chacun des modules
-			for(Engine module : listModule){
+			for(Engine<E> module : listModule){
 				module.frame();
 			}
 			//on met à jour l'état du jeu
@@ -74,14 +75,14 @@ public abstract class Game {
 	/**
 	 * @return the modules
 	 */
-	public Map<Module, Engine> getModules(){
+	public Map<Module, Engine<E>> getModules(){
 		return modules;
 	}
 
 	/**
 	 * @param modules the modules to set
 	 */
-	public void setModules(Map<Module, Engine> modules){
+	public void setModules(Map<Module, Engine<E>> modules){
 		this.modules= modules;
 	}
 }

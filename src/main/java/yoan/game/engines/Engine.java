@@ -13,13 +13,13 @@ import yoan.game.engines.events.EngineEvent;
  * Classe de base des moteurs du jeux
  * @author yoan
  */
-public abstract class Engine {
+public abstract class Engine<E extends EngineEvent> {
 	/** Le jeu auquel le moteur apartient */
-	protected Game game;
+	protected Game<E> game;
 	/** Le nom du moteur */
 	protected final Module name;
 	/** La liste des évenements à traiter */
-	protected Queue<EngineEvent> eventsQueue= new LinkedList<EngineEvent>();
+	protected Queue<E> eventsQueue= new LinkedList<E>();
 
 	
 	/**
@@ -27,7 +27,7 @@ public abstract class Engine {
 	 * @param parent : le jeu auquel appartient le moteur
 	 * @param engineID : l'identifiant du moteur
 	 */
-	public Engine(Game parent, Module engineID){
+	public Engine(Game<E> parent, Module engineID){
 		game= parent;
 		name= engineID;
 	}
@@ -36,7 +36,7 @@ public abstract class Engine {
 	 * Ajoute un event à traiter par le moteur
 	 * @param event : l'event à ajouter
 	 */
-	public void pushEvent(EngineEvent event){
+	public void pushEvent(E event){
 		if(event != null) 
 			eventsQueue.add(event);
 	}
@@ -47,7 +47,7 @@ public abstract class Engine {
 	public void processQueue(){
 		while(!this.eventsQueue.isEmpty()){
 			//on retire l'event de la queue
-			EngineEvent event= (EngineEvent) eventsQueue.remove();
+			E event= (E) eventsQueue.remove();
 			//puis on le traite
 			processEvent(event);
 		}
@@ -62,5 +62,5 @@ public abstract class Engine {
 	 * Traitement d'un event par le moteur
 	 * @param paramEngineEvent : l'évent à traiter
 	 */
-	protected abstract void processEvent(EngineEvent paramEngineEvent);
+	protected abstract void processEvent(E paramEngineEvent);
 }
