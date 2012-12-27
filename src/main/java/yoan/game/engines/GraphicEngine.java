@@ -5,6 +5,7 @@ package yoan.game.engines;
 
 import yoan.game.Game;
 import yoan.game.engines.events.EngineEvent;
+import yoan.game.util.logs.Log;
 
 /**
  * Le moteur graphique
@@ -18,6 +19,7 @@ public abstract class GraphicEngine<E extends EngineEvent> extends Engine<E> {
 	 * @param parent : le jeu
 	 */
 	public GraphicEngine(Game<E> parent){
-		super(parent, Module.GRAPHIC);
+		super(parent, ModuleType.GRAPHIC);
+		Log.info(getType(), "création du GraphicEngine");
 	}
 }

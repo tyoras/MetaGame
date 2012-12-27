@@ -8,36 +8,55 @@ import java.util.HashMap;
 import java.util.Map;
 
 import yoan.game.engines.Engine;
-import yoan.game.engines.Module;
+import yoan.game.engines.ModuleType;
 import yoan.game.engines.events.EngineEvent;
+import yoan.game.util.errors.GameException;
+import yoan.game.util.interfaces.Module;
+import yoan.game.util.logs.Log;
 
 /**
  * Classe de base du jeu
  * @author yoan
  */
-public abstract class Game<E extends EngineEvent> {
+public abstract class Game<E extends EngineEvent> extends Module {
 	
 	/** Indique si le jeu est démarré */
 	private boolean running= false;
+	/** Le type de module */
+	protected final ModuleType type = ModuleType.MAIN;
 	/** Map des modules du jeu */
-	protected Map<Module, Engine<E>> modules;
+	protected Map<ModuleType, Engine<E>> modules;
 	
 	/**
 	 * Constructeur par défaut du jeu
 	 */
 	public Game(){
-		this.modules= new HashMap<Module, Engine<E>>();
+		this.modules= new HashMap<ModuleType, Engine<E>>();
 	}
 
 	/**
-	 * Traitement d'initialisation des modules
+	 * Traitement d'initialisation des moteurs
+	 * @param initArgs : paramètres d'initialisation
 	 */
-	public abstract void initModules();
+	public void initEngines(Map<ModuleType, String[]> initArgs) throws GameException {
+		Log.info(getType(), "Init des moteurs");
+		if (initArgs != null) {
+        	Collection<Engine<E>> listModule= modules.values();
+        	//pour tout les moteurs 
+        	for(Engine<E> module : listModule){
+        		//on récupère les arguments correspondant à ce module
+        		String[] args = initArgs.get(module.getType());
+        		//et on l'initialise avec
+        		module.init(args);
+        	}
+		}
+	}
 
 	/**
 	 * Lance le jeu
+	 * @throws GameException 
 	 */
-	public void run(){
+	public void run() throws GameException{
 		boolean gameRunning= isRunning();
 		Collection<Engine<E>> listModule= modules.values();
 		//tant que le jeu est dans l'état "Démarré"
@@ -56,8 +75,9 @@ public abstract class Game<E extends EngineEvent> {
 	 */
 	public void stop(){
 		setRunning(false);
+		Log.info(getType(), "Stop!");
 	}
-
+	
 	/**
 	 * @return the running
 	 */
@@ -75,14 +95,21 @@ public abstract class Game<E extends EngineEvent> {
 	/**
 	 * @return the modules
 	 */
-	public Map<Module, Engine<E>> getModules(){
+	public Map<ModuleType, Engine<E>> getModules(){
 		return modules;
 	}
 
 	/**
 	 * @param modules the modules to set
 	 */
-	public void setModules(Map<Module, Engine<E>> modules){
+	public void setModules(Map<ModuleType, Engine<E>> modules){
 		this.modules= modules;
+	}
+
+	/**
+	 * @return the type
+	 */
+	public ModuleType getType(){
+		return type;
 	}
 }
