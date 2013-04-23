@@ -3,8 +3,10 @@
  */
 package yoan.game;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import yoan.game.engines.Engine;
@@ -58,12 +60,14 @@ public abstract class Game<E extends EngineEvent> extends Module {
 	 */
 	public void run() throws GameException{
 		boolean gameRunning= isRunning();
-		Collection<Engine<E>> listModule= modules.values();
+		List<Engine<E>> listModule= new ArrayList<Engine<E>>(modules.values());
+		int nbModule = listModule.size();
+		int i =0;
 		//tant que le jeu est dans l'état "Démarré"
 		while(gameRunning){
 			//on exécute les frames de chacun des modules
-			for(Engine<E> module : listModule){
-				module.frame();
+			for(i=0; i<nbModule; i++){
+				listModule.get(i).frame();
 			}
 			//on met à jour l'état du jeu
 			gameRunning= isRunning();
@@ -77,6 +81,8 @@ public abstract class Game<E extends EngineEvent> extends Module {
 		setRunning(false);
 		Log.info(getType(), "Stop!");
 	}
+	
+	//TODO implémenter la pause
 	
 	/**
 	 * @return the running
